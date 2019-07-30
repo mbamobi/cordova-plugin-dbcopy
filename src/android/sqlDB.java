@@ -22,6 +22,7 @@ import java.io.OutputStream;
 public class sqlDB extends CordovaPlugin {
 
     public static String dbname = "dbname";
+    public static String capacitorAssetsRoot = "public";
     PluginResult plresult = new PluginResult(PluginResult.Status.NO_RESULT);
 
     private void sendPluginResponse(int code, String msg, boolean error, CallbackContext callbackContext) {
@@ -49,7 +50,7 @@ public class sqlDB extends CordovaPlugin {
                            CallbackContext callbackContext) throws JSONException {
 
         if (action.equalsIgnoreCase("copy")) {
-            this.copyDB(args.getString(0), "www", callbackContext);
+            this.copyDB(args.getString(0), this.capacitorAssetsRoot, callbackContext);
             return true;
         } else if (action.equalsIgnoreCase("remove")) {
             String db = args.getString(0);
@@ -126,7 +127,7 @@ public class sqlDB extends CordovaPlugin {
                     InputStream myInput = null;
                     JSONObject response = new JSONObject();
                     try {
-                        myInput = cordova.getActivity().getAssets().open("www/" + dbName);
+                        myInput = cordova.getActivity().getAssets().open(this.capacitorAssetsRoot + "/" + dbName);
 
                         OutputStream myOutput = new FileOutputStream(dbpath);
                         byte[] buffer = new byte[1024];
